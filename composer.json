@@ -17,7 +17,7 @@
   "autoload": {
     "psr-4": {
       "WeChat\\": "src",
-      "WebAuth\\": "web/auth",
+      "Web\\": "web",
       "Config\\": "config"
 
     }

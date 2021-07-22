@@ -1,6 +1,6 @@
 <?php
 
-namespace WebAuth;
+namespace Web\auth;
 
 
 use Config\Config;
@@ -16,6 +16,9 @@ class Auth
      */
     protected $config;
 
+    /**
+     * @var Client
+     */
     protected $http;
 
     /**
