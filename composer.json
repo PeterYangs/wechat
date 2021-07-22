@@ -9,11 +9,16 @@
   ],
   "minimum-stability": "dev",
   "require": {
+    "php": ">=7.1",
+    "guzzlehttp/guzzle": "~6.0",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {
       "WeChat\\": "src",
-      "WebAuth\\": "web/auth"
+      "WebAuth\\": "web/auth",
+      "Config\\": "config"
+
     }
   }
 }

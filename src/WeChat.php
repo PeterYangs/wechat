@@ -3,46 +3,24 @@
 namespace WeChat;
 
 
+use Config\Config;
 use WebAuth\Auth;
 
 class WeChat
 {
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $appId;
-
-    /**
-     * @var string
-     */
-    protected $appSecret;
+    protected $config;
 
     /**
      * WeChat constructor.
-     * @param string $appId
-     * @param string $appSecret
+     * @param Config $config
      */
-    public function __construct($appId, $appSecret)
+    public function __construct(Config $config)
     {
-        $this->appId = $appId;
-        $this->appSecret = $appSecret;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAppId()
-    {
-        return $this->appId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAppSecret()
-    {
-        return $this->appSecret;
+        $this->config = $config;
     }
 
 
@@ -52,10 +30,10 @@ class WeChat
      * @param string $redirectUri
      * @return Auth
      */
-    public function WebAuth($redirectUri)
+    public function WebAuth()
     {
 
-        return new Auth($this->appId, $this->appSecret, $redirectUri);
+        return new Auth($this->config);
     }
 
 

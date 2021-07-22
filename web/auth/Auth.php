@@ -3,60 +3,32 @@
 namespace WebAuth;
 
 
+use Config\Config;
+use GuzzleHttp\Client;
+
+
 class Auth
 {
 
-    /**
-     * @var string
-     */
-    protected $appId;
 
     /**
-     * @var string
+     * @var Config
      */
-    protected $appSecret;
+    protected $config;
+
+    protected $http;
 
     /**
-     * @var string 授权地址
+     * WeChat constructor.
+     * @param Config $config
      */
-    protected $redirectUri;
-
-    /**
-     * Auth constructor.
-     * @param string $appId
-     * @param string $appSecret
-     * @param string $redirectUri
-     */
-    public function __construct($appId, $appSecret, $redirectUri)
+    public function __construct(Config $config)
     {
-        $this->appId = $appId;
-        $this->appSecret = $appSecret;
-        $this->redirectUri = $redirectUri;
+        $this->config = $config;
+
+        $this->http = new Client();
     }
 
-    /**
-     * @return string
-     */
-    public function getRedirectUri()
-    {
-        return $this->redirectUri;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAppId()
-    {
-        return $this->appId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAppSecret()
-    {
-        return $this->appSecret;
-    }
 
     /**
      * 获取拿code的地址
@@ -68,9 +40,64 @@ class Auth
     {
 
 
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->appId . "&redirect_uri=" . urlencode($this->redirectUri) . "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->config->getAppId() . "&redirect_uri=" . urlencode($this->config->getRedirectUri()) . "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 
     }
 
+
+    /**
+     * 通过code获取用户信息
+     * Create by Peter Yang
+     * 2021-07-22 16:42:11
+     * @param $code
+     * @return mixed
+     * @throws \Exception|array
+     */
+    public function getUserInfoByCode($code)
+    {
+
+
+        if (!$code) {
+
+            throw new \Exception("code不能为空");
+        }
+
+
+        $url = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" . $this->config->getAppId() . "&secret=" . $this->config->getAppSecret() . "&code=" . $code . "&grant_type=authorization_code";
+
+
+        $access_token = $this->http->get($url)->getBody()->getContents();
+
+
+        $access_token = json_decode($access_token, true);
+
+        if ($re['errcode'] ?? null) {
+
+            throw new \Exception(json_encode($access_token));
+
+        }
+
+        $openid = $access_token['openid'];
+
+        $access_token = $access_token['access_token'];
+
+
+        $url = "https://api.weixin.qq.com/sns/userinfo?access_token=" . $access_token . "&openid=" . $openid . "&lang=zh_CN";
+
+
+        $user_info = $this->http->get($url)->getBody()->getContents();
+
+        $user_info = json_decode($user_info, true);
+
+        if ($user_info['errcode'] ?? null) {
+
+            throw new \Exception(json_encode($user_info));
+
+        }
+
+
+        return $user_info;
+
+    }
 
 }
