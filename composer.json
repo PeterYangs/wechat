@@ -12,14 +12,17 @@
   "require": {
     "php": ">=7.1",
     "guzzlehttp/guzzle": "~6.0",
-    "ext-json": "*"
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-simplexml": "*"
   },
   "autoload": {
     "psr-4": {
       "WeChat\\": "src",
       "Web\\": "web",
       "Config\\": "config",
-      "Tool\\": "tool"
+      "Tool\\": "tool",
+      "Pay\\": "pay"
     }
   }
 }

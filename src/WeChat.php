@@ -5,6 +5,8 @@ namespace WeChat;
 
 use Config\Config;
 use GuzzleHttp\Client;
+use Pay\config\PayConfig;
+use Pay\Pay;
 use Web\auth\Auth;
 use Web\jsSdk\JsSdk;
 
@@ -85,6 +87,14 @@ class WeChat
 
         return $accessToken['access_token'];
 
+    }
+
+
+    public function pay(PayConfig $payConfig)
+    {
+
+
+        return new Pay($payConfig, $this->config);
     }
 
 
