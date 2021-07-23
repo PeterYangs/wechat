@@ -52,11 +52,11 @@ class Auth
      * 通过code获取用户信息
      * Create by Peter Yang
      * 2021-07-22 16:42:11
-     * @param $code
+     * @param string $code
      * @return mixed
      * @throws \Exception|array
      */
-    public function getUserInfoByCode($code)
+    public function getUserInfoByCode(string $code)
     {
 
 

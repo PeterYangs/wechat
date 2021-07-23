@@ -1,61 +1,8 @@
-
-# 微信开发sdk
-
-### 基本
-1.获取access_token
-```php
-$w = new \WeChat\WeChat($config);
-
-echo $w->getAccessToken();
-```
-
-### 网页授权
-
-1.跳转页面获取code
-```php
 <?php
-
 require "../vendor/autoload.php";
 
-#配置信息
-$config = new \Config\Config("appid", "appSecret",
-    "回调地址");
-
-$w = new \WeChat\WeChat($config);
-
-$url = $w->WebAuth()->getCodeRedirect();
-
-header("location:" . $url);
-```
-
-2.根据code获取用户信息
-```php
-<?php
-
-require "../vendor/autoload.php";
-
-$w = new \WeChat\WeChat($config);
-
-$user_info = $w->WebAuth()->getUserInfoByCode($_GET['code']);
-
-
-print_r($user_info);
-```
-
-### jsSdk
-1.获取jsapiTicket
-```php
-$w = new \WeChat\WeChat($config);
-
-$accessToken = $w->getAccessToken();
-
-
-echo $w->JsSdk()->getTicket($accessToken);
-```
-
-2.wxConfig
-```php
-<?php
+$config = new \Config\Config("wx4eb905e777212235", "834573bf3a8887b3777154a32057f814",
+    "http://www.wechat.com/auth.php");
 
 $w = new \WeChat\WeChat($config);
 
@@ -87,8 +34,4 @@ $wxConfig = $jsSdk->getWxConfig($ticket, "http://www.wechat.com/wxConfig.php");
 </script>
 </body>
 </html>
-
-
-```
-
 

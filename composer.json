@@ -18,8 +18,8 @@
     "psr-4": {
       "WeChat\\": "src",
       "Web\\": "web",
-      "Config\\": "config"
-
+      "Config\\": "config",
+      "Tool\\": "tool"
     }
   }
 }

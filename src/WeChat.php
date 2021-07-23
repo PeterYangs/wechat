@@ -6,6 +6,7 @@ namespace WeChat;
 use Config\Config;
 use GuzzleHttp\Client;
 use Web\auth\Auth;
+use Web\jsSdk\JsSdk;
 
 
 class WeChat
@@ -35,6 +36,7 @@ class WeChat
 
 
     /**
+     * 网页授权相关
      * Create by Peter Yang
      * 2021-07-22 15:23:52
      * @return Auth
@@ -43,6 +45,20 @@ class WeChat
     {
 
         return new Auth($this->config);
+    }
+
+
+    /**
+     * jssdk相关
+     * Create by Peter Yang
+     * 2021-07-23 09:42:07
+     * @return JsSdk
+     */
+    public function JsSdk()
+    {
+
+
+        return new JsSdk($this->config);
     }
 
 
