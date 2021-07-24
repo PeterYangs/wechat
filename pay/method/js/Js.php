@@ -21,43 +21,44 @@ class Js implements PayInterface
 
 
     /**
-     * 商品描述
-     * @var string
+     *
+     * @var string 商品描述
      */
-    protected $description;
+    protected $body;
+
 
     /**
-     * 订单号
-     * @var string
+     * @var string 订单号
      */
     protected $outTradeNo;
 
 
     /**
-     * 订单金额
-     * @var integer
+     * @var int 订单金额，单位分
      */
-    protected $total;
-
-
+    protected $totalFee;
 
 
     /**
-     * @var string 通知回调地址
+     * @var string 客户端ip
      */
-    protected $notify_url;
+    protected $ip;
 
 
     /**
-     *
+     * @var string 通知地址
+     */
+    protected $notifyUrl;
+
+
+    /**
      * @var string
      */
-    protected $openId;
+    protected $openid;
 
 
     /**
-     * 附加属性
-     * @var string
+     * @var string 附加属性
      */
     protected $attach;
 
@@ -79,87 +80,97 @@ class Js implements PayInterface
      */
     protected $http;
 
+
     /**
      * Js constructor.
-     * @param string $description
+     * @param string $body
      * @param string $outTradeNo
-     * @param int $total
-     * @param string $notify_url
-     * @param string $openId
+     * @param int $totalFee
+     * @param string $ip
+     * @param string $notifyUrl
+     * @param string $openid
      * @param string $attach
      */
     public function __construct(
-        string $description,
+        string $body,
         string $outTradeNo,
-        int $total,
-
-        string $notify_url,
-        string $openId,
-        string $attach = ''
+        int $totalFee,
+        string $ip,
+        string $notifyUrl,
+        string $openid,
+        string $attach
     ) {
-        $this->description = $description;
+        $this->body = $body;
         $this->outTradeNo = $outTradeNo;
-        $this->total = $total;
-        $this->notify_url = $notify_url;
-        $this->openId = $openId;
+        $this->totalFee = $totalFee;
+        $this->ip = $ip;
+        $this->notifyUrl = $notifyUrl;
+        $this->openid = $openid;
         $this->attach = $attach;
-
         $this->http = new Client();
     }
 
 
+    /**
+     * 统一
+     * Create by Peter Yang
+     * 2021-07-24 11:29:29
+     * @return mixed
+     * @throws \Exception
+     */
     function unifiedorder()
     {
         // TODO: Implement unifiedorder() method.
 
 
-        $url = "https://api.mch.weixin.qq.com/v3/pay/transactions/jsapi";
+        $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
 
 
         $data = [
             'appid' => $this->config->getAppId(),
-            'mchid' => $this->payConfig->getMchId(),
-            'description'=>$this->description,//商品描述
-            'out_trade_no'=>$this->outTradeNo,//订单号
-            'attach'=>$this->attach,
-            'notify_url'=>$this->notify_url,
-            'amount'=>[
-                'total'=>$this->total,
-            ],
-            'payer'=>[
-                'openid'=>$this->openId
-            ],
-
+            'mch_id' => $this->payConfig->getMchId(),
+            'nonce_str' => Tool::nonceStr(),
+            'body' => $this->body, //商品描述
+            'out_trade_no' => $this->outTradeNo,
+            'total_fee' => $this->totalFee,
+            'spbill_create_ip' => $this->ip,
+            'notify_url' => $this->notifyUrl,
+            'trade_type' => 'JSAPI',
+            'openid' => $this->openid,
+            'attach' => $this->attach
         ];
 
-//        $signature = Tool::signatureForPay($data, $this->payConfig->getPayKey());
-//
-//        $data['sign'] = $signature;
+        $signature = Tool::signatureForPay($data, $this->payConfig->getPayKey());
+
+        $data['sign'] = $signature;
+
+        //转xml格式
+        $data = Tool::arrayToXml($data);
+
+        $re = Tool::requestForPay($data, $url);
 
 
-        $r=$this->http->post($url,[
-            'json'=>$data,
-            'headers'=>[
-                'User-Agent'=>'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1 wechatdevtools/1.05.2105170 MicroMessenger/7.0.4 Language/zh_CN webview/16270895711527044 webdebugger port/21341 token/f56997a187bd90f191d90ae5d2bd4423',
-                'Accept'=>'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
-            ]
-        ]);
+        $arr = Tool::xmlToArray($re);
+
+        if ($arr['return_code'] !== "SUCCESS" || $arr['result_code'] !== "SUCCESS") {
+
+            throw new \Exception(json_encode($arr));
+
+        }
 
 
-        return $r;
-
-
+        return $arr;
 
     }
 
-    function SetConfig(Config $config)
+    public function SetConfig(Config $config): void
     {
         // TODO: Implement SetConfig() method.
 
         $this->config = $config;
     }
 
-    function SetPayConfig(PayConfig $payConfig)
+    public function SetPayConfig(PayConfig $payConfig): void
     {
         // TODO: Implement SetPayConfig() method.
 
