@@ -147,4 +147,20 @@ class Tool
     }
 
 
+    /**
+     * Create by Peter Yang
+     * 2021-07-24 16:16:00
+     * @return string
+     */
+    public static function returnSuccess():string
+    {
+
+
+        return "<xml>
+                <return_code><![CDATA[SUCCESS]]></return_code>
+                <return_msg><![CDATA[OK]]></return_msg>
+             </xml>";
+    }
+
+
 }

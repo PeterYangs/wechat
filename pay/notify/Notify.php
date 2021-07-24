@@ -30,6 +30,12 @@ class Notify
      */
     protected $totalFee;
 
+
+    /**
+     * @var string
+     */
+    protected $attach;
+
     /**
      * @var array
      */
@@ -41,15 +47,31 @@ class Notify
      * @param string $nonceStr
      * @param string $tradeType
      * @param int $totalFee
+     * @param string $attach
      * @param array $all
      */
-    public function __construct(string $mchId, string $nonceStr, string $tradeType, int $totalFee, array $all)
-    {
+    public function __construct(
+        string $mchId,
+        string $nonceStr,
+        string $tradeType,
+        int $totalFee,
+        string $attach,
+        array $all
+    ) {
         $this->mchId = $mchId;
         $this->nonceStr = $nonceStr;
         $this->tradeType = $tradeType;
         $this->totalFee = $totalFee;
+        $this->attach = $attach;
         $this->all = $all;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAttach(): string
+    {
+        return $this->attach;
     }
 
 

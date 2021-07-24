@@ -214,7 +214,7 @@ class Js implements PayInterface
         if (strtolower($s) === strtolower($sign)) {
 
 
-            return new Notify($data['mch_id'], $data['nonce_str'], $data['trade_type'], $data['total_fee'], $data);
+            return new Notify($data['mch_id'], $data['nonce_str'], $data['trade_type'], $data['total_fee'],$data['attach'] ,$data);
 
         }
 
