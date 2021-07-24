@@ -6,6 +6,7 @@ use Config\Config;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
 use Pay\contracts\UnifiedOrder;
+use Pay\notify\Notify;
 
 class Pay
 {
@@ -72,6 +73,20 @@ class Pay
 
 
         return $this->method->unifiedorder($unifiedOrder);
+    }
+
+
+    public function check(string $data = ""): Notify
+    {
+
+        if (!$this->method) {
+
+            throw new \Exception('请选择支付方式');
+        }
+
+
+        return $this->method->check($data);
+
     }
 
 

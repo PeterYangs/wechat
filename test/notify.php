@@ -17,9 +17,9 @@ try {
 
     $method = $pay->choose(new \Pay\method\js\Js());
 
-     $data=$method->unifiedorder(new \Pay\method\js\JsUnifiedOrder("1312", "23131", "1", "12", "", "openid",""))->getPayParameter();
 
-     print_r($data);
+    $all=$method->check()->getAll();
+
 
 } catch (\Exception $exception) {
 

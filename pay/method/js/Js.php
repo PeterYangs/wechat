@@ -10,6 +10,7 @@ use mysql_xdevapi\Exception;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
 use Pay\contracts\UnifiedOrder;
+use Pay\notify\Notify;
 use Tool\Tool;
 
 
@@ -111,8 +112,6 @@ class Js implements PayInterface
         }
 
 
-//        $this->prepayId=$arr['prepay_id'];
-
         $this->unifiedorderResult = $arr;
 
         return $this;
@@ -176,6 +175,51 @@ class Js implements PayInterface
         $data['paySign'] = $paySign;
 
         return $data;
+
+
+    }
+
+    /**
+     * Create by Peter Yang
+     * 2021-07-24 16:02:00
+     * @param string $data
+     * @return Notify
+     * @throws \Exception
+     */
+    public function check(string $data = ""): Notify
+    {
+        // TODO: Implement check() method.
+
+        if (!$data) {
+
+            $data = file_get_contents('php://input');
+        }
+
+
+        $data = Tool::xmlToArray($data);
+
+        $sign = $data['sign'];
+
+        if (!$sign) {
+
+
+            throw new \Exception("签名为空");
+
+        }
+
+        unset($data['sign']);
+
+        $s = Tool::signatureForPay($data, $this->payConfig->getPayKey());
+
+        if (strtolower($s) === strtolower($sign)) {
+
+
+            return new Notify($data['mch_id'], $data['nonce_str'], $data['trade_type'], $data['total_fee'], $data);
+
+        }
+
+
+        throw new \Exception("验证失败！");
 
 
     }
