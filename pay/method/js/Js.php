@@ -6,6 +6,7 @@ namespace Pay\method\js;
 
 use Config\Config;
 use GuzzleHttp\Client;
+use mysql_xdevapi\Exception;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
 use Pay\contracts\UnifiedOrder;
@@ -56,14 +57,19 @@ class Js implements PayInterface
 
 
     /**
-     * 统一
      * Create by Peter Yang
-     * 2021-07-24 11:29:29
+     * 2021-07-24 14:26:31
+     * @param JsUnifiedOrder $unifiedOrder
      * @return mixed
      * @throws \Exception
      */
     function unifiedorder(UnifiedOrder $unifiedOrder)
     {
+
+        if (!($unifiedOrder instanceof JsUnifiedOrder)){
+
+            throw new Exception("支付方式错误！");
+        }
 
 
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -79,7 +85,7 @@ class Js implements PayInterface
             'spbill_create_ip' => $unifiedOrder->getIp(),
             'notify_url' => $unifiedOrder->getNotifyUrl(),
             'trade_type' => 'JSAPI',
-            'openid' => $unifiedOrder->getIp(),
+            'openid' => $unifiedOrder->getOpenid(),
         ];
 
         if ($unifiedOrder->getAttach()) {

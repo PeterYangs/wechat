@@ -17,7 +17,7 @@ try {
 
     $method = $pay->choose(new \Pay\method\js\Js());
 
-    echo $method->unifiedorder(new \Pay\method\js\JsUnifiedOrder("1312", "23131", "1", "12", "", "",""));
+    echo $method->unifiedorder(new \Pay\method\js\JsUnifiedOrder("1312", "23131", "1", "12", "", "openid",""));
 
 } catch (\Exception $exception) {
 
