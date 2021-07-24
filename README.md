@@ -4,6 +4,11 @@
 ### 基本
 1.获取access_token
 ```php
+
+#配置信息
+$config = new \Config\Config("appid", "appSecret",
+    "回调地址");
+
 $w = new \WeChat\WeChat($config);
 
 echo $w->getAccessToken();
