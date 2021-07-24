@@ -132,9 +132,9 @@ class Js implements PayInterface
 
         ];
 
-        $signature = Tool::signatureForPay($data, $this->payConfig->getPayKey());
-
-        $data['sign'] = $signature;
+//        $signature = Tool::signatureForPay($data, $this->payConfig->getPayKey());
+//
+//        $data['sign'] = $signature;
 
 
         $r=$this->http->post($url,[
