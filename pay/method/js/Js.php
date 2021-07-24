@@ -41,10 +41,9 @@ class Js implements PayInterface
 
 
     /**
-     * @var
+     * @var array
      */
-    protected $prepayId;
-
+    protected $unifiedorderResult;
 
     /**
      * Js constructor.
@@ -60,13 +59,13 @@ class Js implements PayInterface
      * Create by Peter Yang
      * 2021-07-24 14:26:31
      * @param JsUnifiedOrder $unifiedOrder
-     * @return mixed
+     * @return Js
      * @throws \Exception
      */
-    function unifiedorder(UnifiedOrder $unifiedOrder)
+    function unifiedorder(UnifiedOrder $unifiedOrder): PayInterface
     {
 
-        if (!($unifiedOrder instanceof JsUnifiedOrder)){
+        if (!($unifiedOrder instanceof JsUnifiedOrder)) {
 
             throw new Exception("支付方式错误！");
         }
@@ -112,9 +111,14 @@ class Js implements PayInterface
         }
 
 
-        return $arr;
+//        $this->prepayId=$arr['prepay_id'];
+
+        $this->unifiedorderResult = $arr;
+
+        return $this;
 
     }
+
 
     public function SetConfig(Config $config): void
     {
@@ -130,4 +134,49 @@ class Js implements PayInterface
         $this->payConfig = $payConfig;
     }
 
+    function getUnifiedorderResult(): array
+    {
+        // TODO: Implement getUnifiedorderResult() method.
+
+        if (!$this->unifiedorderResult) {
+
+            return [];
+        }
+
+        return $this->unifiedorderResult;
+    }
+
+    /**
+     * Create by Peter Yang
+     * 2021-07-24 14:50:24
+     * @return array
+     * @throws \Exception
+     */
+    public function getPayParameter(): array
+    {
+        // TODO: Implement getPayParameter() method.
+
+        if (!$this->unifiedorderResult) {
+
+            throw new \Exception("请先调用统一下单！");
+        }
+
+        $data = [
+            'appId' => $this->config->getAppId(),
+            'timeStamp' => time(),
+            'nonceStr' => Tool::nonceStr(),
+            'package' => 'prepay_id=' . $this->unifiedorderResult['prepay_id'],
+            'signType' => 'MD5',
+
+        ];
+
+        $paySign = Tool::signatureForPay($data, $this->payConfig->getPayKey());
+
+
+        $data['paySign'] = $paySign;
+
+        return $data;
+
+
+    }
 }

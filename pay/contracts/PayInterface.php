@@ -10,10 +10,14 @@ use Pay\config\PayConfig;
 interface PayInterface
 {
 
-    function unifiedorder(UnifiedOrder $unifiedOrder);
+    public function unifiedorder(UnifiedOrder $unifiedOrder): PayInterface;
 
-    function SetConfig(Config $config);
+    public function getPayParameter():array;
 
-    function  SetPayConfig(PayConfig $payConfig);
+    public function getUnifiedorderResult(): array;
+
+    public function SetConfig(Config $config);
+
+    public function SetPayConfig(PayConfig $payConfig);
 
 }

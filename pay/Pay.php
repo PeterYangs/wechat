@@ -6,7 +6,6 @@ use Config\Config;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
 use Pay\contracts\UnifiedOrder;
-use Pay\method\js\JsUnifiedOrder;
 
 class Pay
 {
@@ -56,13 +55,13 @@ class Pay
 
 
     /**
-     * 统一下单接口
      * Create by Peter Yang
-     * 2021-07-24 09:49:34
-     * @return mixed
+     * 2021-07-24 14:42:12
+     * @param UnifiedOrder $unifiedOrder
+     * @return PayInterface
      * @throws \Exception
      */
-    public function unifiedorder(UnifiedOrder $unifiedOrder)
+    public function unifiedorder(UnifiedOrder $unifiedOrder): PayInterface
     {
 
 
@@ -70,9 +69,6 @@ class Pay
 
             throw new \Exception('请选择支付方式');
         }
-
-
-
 
 
         return $this->method->unifiedorder($unifiedOrder);
