@@ -8,6 +8,7 @@ use Config\Config;
 use GuzzleHttp\Client;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
+use Pay\contracts\UnifiedOrder;
 use Tool\Tool;
 
 
@@ -18,49 +19,6 @@ use Tool\Tool;
  */
 class Js implements PayInterface
 {
-
-
-    /**
-     *
-     * @var string 商品描述
-     */
-    protected $body;
-
-
-    /**
-     * @var string 订单号
-     */
-    protected $outTradeNo;
-
-
-    /**
-     * @var int 订单金额，单位分
-     */
-    protected $totalFee;
-
-
-    /**
-     * @var string 客户端ip
-     */
-    protected $ip;
-
-
-    /**
-     * @var string 通知地址
-     */
-    protected $notifyUrl;
-
-
-    /**
-     * @var string
-     */
-    protected $openid;
-
-
-    /**
-     * @var string 附加属性
-     */
-    protected $attach;
 
 
     /**
@@ -82,31 +40,17 @@ class Js implements PayInterface
 
 
     /**
-     * Js constructor.
-     * @param string $body
-     * @param string $outTradeNo
-     * @param int $totalFee
-     * @param string $ip
-     * @param string $notifyUrl
-     * @param string $openid
-     * @param string $attach
+     * @var
      */
-    public function __construct(
-        string $body,
-        string $outTradeNo,
-        int $totalFee,
-        string $ip,
-        string $notifyUrl,
-        string $openid,
-        string $attach
-    ) {
-        $this->body = $body;
-        $this->outTradeNo = $outTradeNo;
-        $this->totalFee = $totalFee;
-        $this->ip = $ip;
-        $this->notifyUrl = $notifyUrl;
-        $this->openid = $openid;
-        $this->attach = $attach;
+    protected $prepayId;
+
+
+    /**
+     * Js constructor.
+     */
+    public function __construct()
+    {
+
         $this->http = new Client();
     }
 
@@ -118,9 +62,8 @@ class Js implements PayInterface
      * @return mixed
      * @throws \Exception
      */
-    function unifiedorder()
+    function unifiedorder(UnifiedOrder $unifiedOrder)
     {
-        // TODO: Implement unifiedorder() method.
 
 
         $url = "https://api.mch.weixin.qq.com/pay/unifiedorder";
@@ -130,15 +73,19 @@ class Js implements PayInterface
             'appid' => $this->config->getAppId(),
             'mch_id' => $this->payConfig->getMchId(),
             'nonce_str' => Tool::nonceStr(),
-            'body' => $this->body, //商品描述
-            'out_trade_no' => $this->outTradeNo,
-            'total_fee' => $this->totalFee,
-            'spbill_create_ip' => $this->ip,
-            'notify_url' => $this->notifyUrl,
+            'body' => $unifiedOrder->getBody(), //商品描述
+            'out_trade_no' => $unifiedOrder->getOutTradeNo(),
+            'total_fee' => $unifiedOrder->getTotalFee(),
+            'spbill_create_ip' => $unifiedOrder->getIp(),
+            'notify_url' => $unifiedOrder->getNotifyUrl(),
             'trade_type' => 'JSAPI',
-            'openid' => $this->openid,
-            'attach' => $this->attach
+            'openid' => $unifiedOrder->getIp(),
         ];
+
+        if ($unifiedOrder->getAttach()) {
+
+            $data['attach'] = $unifiedOrder->getAttach();
+        }
 
         $signature = Tool::signatureForPay($data, $this->payConfig->getPayKey());
 
@@ -176,4 +123,5 @@ class Js implements PayInterface
 
         $this->payConfig = $payConfig;
     }
+
 }

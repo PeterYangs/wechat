@@ -10,7 +10,7 @@ use Pay\config\PayConfig;
 interface PayInterface
 {
 
-    function unifiedorder();
+    function unifiedorder(UnifiedOrder $unifiedOrder);
 
     function SetConfig(Config $config);
 

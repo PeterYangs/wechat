@@ -5,6 +5,8 @@ namespace Pay;
 use Config\Config;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
+use Pay\contracts\UnifiedOrder;
+use Pay\method\js\JsUnifiedOrder;
 
 class Pay
 {
@@ -60,7 +62,7 @@ class Pay
      * @return mixed
      * @throws \Exception
      */
-    public function unifiedorder()
+    public function unifiedorder(UnifiedOrder $unifiedOrder)
     {
 
 
@@ -70,7 +72,10 @@ class Pay
         }
 
 
-        return $this->method->unifiedorder();
+
+
+
+        return $this->method->unifiedorder($unifiedOrder);
     }
 
 

@@ -15,9 +15,9 @@ try {
 
     $pay = $w->pay(new \Pay\config\PayConfig("xxxxx", "xxxx"));
 
-    $method = $pay->choose(new \Pay\method\js\Js("1312", "23131", "1", "12", "", ""));
+    $method = $pay->choose(new \Pay\method\js\Js());
 
-    echo $pay->unifiedorder();
+    echo $method->unifiedorder(new \Pay\method\js\JsUnifiedOrder("1312", "23131", "1", "12", "", "",""));
 
 } catch (\Exception $exception) {
 
