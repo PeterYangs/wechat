@@ -1,7 +1,7 @@
 
 # 微信开发sdk
 
-### 基本
+### 安装
 ```shell
 composer require peteryang/wechat
 ```
