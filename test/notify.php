@@ -17,7 +17,7 @@ try {
 
     $method = $pay->choose(new \Pay\method\js\Js());
 
-
+    #验证失败会抛出异常，验证成功返回回调数据
     $all=$method->check()->getAll();
 
 
