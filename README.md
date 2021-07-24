@@ -2,6 +2,11 @@
 # 微信开发sdk
 
 ### 基本
+```shell
+composer require peteryang/wechat
+```
+
+### 基本
 1.获取access_token
 ```php
 
