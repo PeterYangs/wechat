@@ -56,9 +56,11 @@ class Pay
     /**
      * 统一下单接口
      * Create by Peter Yang
-     * 2021-07-23 17:13:33
+     * 2021-07-24 09:49:34
+     * @return mixed
+     * @throws \Exception
      */
-    function unifiedorder()
+    public function unifiedorder()
     {
 
 
@@ -68,7 +70,7 @@ class Pay
         }
 
 
-        $this->method->unifiedorder();
+        return $this->method->unifiedorder();
     }
 
 
