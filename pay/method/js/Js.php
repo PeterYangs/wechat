@@ -136,29 +136,18 @@ class Js implements PayInterface
 
         $data['sign'] = $signature;
 
-        //转xml格式
-//        $data = Tool::arrayToXml($data);
 
-        $r=$this->http->post($url,$data);
-
-        $r->
-
-        $re = $this->postXmlCurl($data, $url);
-
-
-        $arr = $this->xmlToArray($re);
-
-        if ($arr['return_code'] != "SUCCESS" || $arr['result_code'] != "SUCCESS") {
+        $r=$this->http->post($url,[
+            'json'=>$data,
+            'headers'=>[
+                'User-Agent'=>'Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1 wechatdevtools/1.05.2105170 MicroMessenger/7.0.4 Language/zh_CN webview/16270895711527044 webdebugger port/21341 token/f56997a187bd90f191d90ae5d2bd4423',
+                'Accept'=>'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+            ]
+        ]);
 
 
-//            return json_encode([]);
-            throw new \Exception(json_encode($arr));
+        return $r;
 
-
-        }
-
-
-        return $arr;
 
 
     }
