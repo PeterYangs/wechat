@@ -37,13 +37,14 @@ class Auth
      * 获取拿code的地址
      * Create by Peter Yang
      * 2021-07-22 15:51:15
+     * @param string $redirectUri
      * @return string
      */
-    public function getCodeRedirect()
+    public function getCodeRedirect(string $redirectUri): string
     {
 
 
-        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->config->getAppId() . "&redirect_uri=" . urlencode($this->config->getRedirectUri()) . "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+        return "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" . $this->config->getAppId() . "&redirect_uri=" . urlencode($redirectUri) . "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
 
     }
 

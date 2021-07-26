@@ -17,17 +17,22 @@ class Config
      */
     protected $appSecret;
 
-
     /**
-     * 授权跳转地址
-     * @var string
+     * Config constructor.
+     * @param string $appId
+     * @param string $appSecret
      */
-    protected $redirectUri;
+    public function __construct(string $appId, string $appSecret)
+    {
+        $this->appId = $appId;
+        $this->appSecret = $appSecret;
+
+    }
 
     /**
      * @return string
      */
-    public function getAppId()
+    public function getAppId(): string
     {
         return $this->appId;
     }
@@ -35,30 +40,9 @@ class Config
     /**
      * @return string
      */
-    public function getAppSecret()
+    public function getAppSecret(): string
     {
         return $this->appSecret;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRedirectUri()
-    {
-        return $this->redirectUri;
-    }
-
-    /**
-     * Config constructor.
-     * @param string $appId
-     * @param string $appSecret
-     * @param string $redirectUri
-     */
-    public function __construct($appId, $appSecret, $redirectUri)
-    {
-        $this->appId = $appId;
-        $this->appSecret = $appSecret;
-        $this->redirectUri = $redirectUri;
     }
 
 }

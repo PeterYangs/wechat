@@ -11,7 +11,7 @@ composer require peteryang/wechat
 ```php
 
 #配置信息
-$config = new \Config\Config("appid", "appSecret","回调地址");
+$config = new \Config\Config("appid", "appSecret");
 
 $w = new \WeChat\WeChat($config);
 
@@ -27,11 +27,11 @@ echo $w->getAccessToken();
 require "../vendor/autoload.php";
 
 #配置信息
-$config = new \Config\Config("appid", "appSecret","回调地址");
+$config = new \Config\Config("appid", "appSecret");
 
 $w = new \WeChat\WeChat($config);
 
-$url = $w->WebAuth()->getCodeRedirect();
+$url = $w->WebAuth()->getCodeRedirect("回调地址");
 
 header("location:" . $url);
 ```
@@ -111,7 +111,7 @@ use Pay\method\js\JsUnifiedOrder;
 require "../vendor/autoload.php";
 
 #测试号
-$config = new \Config\Config("appid", "appkey","http://www.wechat.com/auth.php");
+$config = new \Config\Config("appid", "appkey");
 
 $w = new \WeChat\WeChat($config);
 
@@ -200,7 +200,7 @@ try {
 
 
     #测试号
-    $config = new \Config\Config("appid", "appkey","http://www.wechat.com/auth.php");
+    $config = new \Config\Config("appid", "appkey");
 
     $w = new \WeChat\WeChat($config);
 
