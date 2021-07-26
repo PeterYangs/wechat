@@ -6,7 +6,6 @@ namespace Pay\method\js;
 
 use Config\Config;
 use GuzzleHttp\Client;
-use mysql_xdevapi\Exception;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
 use Pay\contracts\UnifiedOrder;
@@ -68,7 +67,7 @@ class Js implements PayInterface
 
         if (!($unifiedOrder instanceof JsUnifiedOrder)) {
 
-            throw new Exception("支付方式错误！");
+            throw new \Exception("支付方式错误！");
         }
 
 
