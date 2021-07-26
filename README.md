@@ -211,7 +211,9 @@ try {
 
     #验证失败会抛出异常，验证成功返回回调数据
     $all=$method->check()->getAll();
-
+    
+    //返回微信服务器成功消息
+    echo  \Tool\Tool::returnSuccess();
 
 } catch (\Exception $exception) {
 
