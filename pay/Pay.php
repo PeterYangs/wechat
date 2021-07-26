@@ -5,8 +5,7 @@ namespace Pay;
 use Config\Config;
 use Pay\config\PayConfig;
 use Pay\contracts\PayInterface;
-use Pay\contracts\UnifiedOrder;
-use Pay\notify\Notify;
+use Pay\method\Method;
 
 class Pay
 {
@@ -41,7 +40,14 @@ class Pay
     }
 
 
-    public function choose(PayInterface $pay)
+    /**
+     * 选择支付方式
+     * Create by Peter Yang
+     * 2021-07-26 11:37:37
+     * @param PayInterface $pay
+     * @return Method
+     */
+    public function choose(PayInterface $pay): Method
     {
 
 
@@ -49,44 +55,11 @@ class Pay
 
         $pay->SetPayConfig($this->payConfig);
 
-        $this->method = $pay;
+//        $this->method = $pay;
 
-        return $this;
-    }
+        return new Method($pay);
 
-
-    /**
-     * Create by Peter Yang
-     * 2021-07-24 14:42:12
-     * @param UnifiedOrder $unifiedOrder
-     * @return PayInterface
-     * @throws \Exception
-     */
-    public function unifiedorder(UnifiedOrder $unifiedOrder): PayInterface
-    {
-
-
-        if (!$this->method) {
-
-            throw new \Exception('请选择支付方式');
-        }
-
-
-        return $this->method->unifiedorder($unifiedOrder);
-    }
-
-
-    public function check(string $data = ""): Notify
-    {
-
-        if (!$this->method) {
-
-            throw new \Exception('请选择支付方式');
-        }
-
-
-        return $this->method->check($data);
-
+//        return $this;
     }
 
 
