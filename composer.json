@@ -15,7 +15,8 @@
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-simplexml": "*",
-    "ext-curl": "*"
+    "ext-curl": "*",
+    "ext-openssl": "*"
   },
   "autoload": {
     "psr-4": {
@@ -23,7 +24,8 @@
       "Web\\": "web",
       "Config\\": "config",
       "Tool\\": "tool",
-      "Pay\\": "pay"
+      "Pay\\": "pay",
+      "App\\": "app"
     }
   }
 }

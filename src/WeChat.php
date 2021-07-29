@@ -3,6 +3,7 @@
 namespace WeChat;
 
 
+use App\App;
 use Config\Config;
 use GuzzleHttp\Client;
 use Pay\config\PayConfig;
@@ -95,6 +96,13 @@ class WeChat
 
 
         return new Pay($payConfig, $this->config);
+    }
+
+
+    public function app(){
+
+
+        return new App($this->config);
     }
 
 

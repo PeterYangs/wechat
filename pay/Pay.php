@@ -55,11 +55,9 @@ class Pay
 
         $pay->SetPayConfig($this->payConfig);
 
-//        $this->method = $pay;
-
+        
         return new Method($pay);
 
-//        return $this;
     }
 
 
