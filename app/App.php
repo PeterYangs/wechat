@@ -49,7 +49,7 @@ class App
 
         $re = json_decode($re, true);
 
-        if ($re['errcode'] !== 0) {
+        if ($re['errcode']??null !== 0) {
 
             throw new \Exception(json_encode($re));
 
