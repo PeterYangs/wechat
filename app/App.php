@@ -49,13 +49,13 @@ class App
 
         $re = json_decode($re, true);
 
-        if ($re['errcode']??null !== 0) {
+        if ($re['errcode']??0 !== 0) {
 
             throw new \Exception(json_encode($re));
 
         }
 
-        return new SessionDao($re['openid'], $re['session_key'], $re['unionid']);
+        return new SessionDao($re['openid'], $re['session_key'], $re['unionid']??"");
 
 
     }
