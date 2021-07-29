@@ -103,9 +103,9 @@ class App
         }
 
 
-        return new UserDao($dataObj['openId'], $dataObj['nickName'], $dataObj['gender'], $dataObj['language'],
-            $dataObj['city'], $dataObj['province'], $dataObj['country'], $dataObj['avatarUrl'], $dataObj['unionId']??"",
-            $dataObj['watermark']['appid']);
+        return new UserDao($dataObj['openId']??"", $dataObj['nickName']??"", $dataObj['gender']??1, $dataObj['language']??"",
+            $dataObj['city']??"", $dataObj['province']??"", $dataObj['country']??"", $dataObj['avatarUrl']??"", $dataObj['unionId']??"",
+            $dataObj['watermark']['appid']??"",$dataObj);
 
 
     }

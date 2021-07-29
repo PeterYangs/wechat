@@ -63,6 +63,20 @@ class UserDao
     protected $appid;
 
     /**
+     * @return array
+     */
+    public function getAll(): array
+    {
+        return $this->all;
+    }
+
+
+    /**
+     * @var array
+     */
+    protected $all;
+
+    /**
      * UserDao constructor.
      * @param string $openid
      * @param string $nickName
@@ -74,6 +88,7 @@ class UserDao
      * @param string $avatarUrl
      * @param string $unionId
      * @param string $appid
+     * @param array $all
      */
     public function __construct(
         string $openid,
@@ -85,7 +100,8 @@ class UserDao
         $country,
         string $avatarUrl,
         string $unionId,
-        string $appid
+        string $appid,
+        array $all
     ) {
         $this->openid = $openid;
         $this->nickName = $nickName;
@@ -97,7 +113,9 @@ class UserDao
         $this->avatarUrl = $avatarUrl;
         $this->unionId = $unionId;
         $this->appid = $appid;
+        $this->all = $all;
     }
+
 
     /**
      * @return string
