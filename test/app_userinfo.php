@@ -7,8 +7,11 @@ $config = new \Config\Config("wx4f4bc4dec97d474b", "tiihtNczf5v6AKRyjwEUhQ==");
 
 $w = new \WeChat\WeChat($config);
 
+#获取session和openid
+$app = $w->app()->getSession($code);
 
-$user=$w->app()->decryptData('CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
+#解密
+$user = $w->app()->decryptData('CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
                 QmRzooG2xrDcvSnxIMXFufNstNGTyaGS
                 9uT5geRa0W4oTOb1WT7fJlAC+oNPdbB+
                 3hVbJSRgv+4lGOETKUQz6OYStslQ142d
@@ -24,7 +27,7 @@ $user=$w->app()->decryptData('CiyLU1Aw2KjvrjMdj8YKliAjtP4gsMZM
                 lqYTopNHR1Vf7XjfhQlVsAJdNiKdYmYV
                 oKlaRv85IfVunYzO0IKXsyl7JCUjCpoG
                 20f0a04COwfneQAGGwd5oa+T8yO5hzuy
-                Db/XcxxmK01EpqOyuxINew==','r7BXXKkLb8qrSNn05n0qiA==','tiihtNczf5v6AKRyjwEUhQ==');
+                Db/XcxxmK01EpqOyuxINew==', 'r7BXXKkLb8qrSNn05n0qiA==', 'tiihtNczf5v6AKRyjwEUhQ==');
 
 
-echo $user->getAvatarUrl();
+$info = $user->getAll();
